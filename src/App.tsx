@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import "./App.css";
 import { Routes, Route } from "react-router";
+import LoadingSpinner from "./common/components/LoadingSpinner";
 const AppLayout = React.lazy(() => import("./layout/AppLayout"));
 const HomePage = React.lazy(() => import("./pages/HomePage/HomePage"));
 const SearchPage = React.lazy(() => import("./pages/SearchPage/SearchPage"));
@@ -13,7 +14,7 @@ const SearchPage = React.lazy(() => import("./pages/SearchPage/SearchPage"));
 // 5. (모바일버전) 플레이리스트 보여주는 페이지 /playlist
 function App() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<LoadingSpinner fullScreen size="large" />}>
       <Routes>
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
