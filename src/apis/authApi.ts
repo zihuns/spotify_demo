@@ -3,7 +3,13 @@ import { clientId, clientSecret } from "../configs/authConfig";
 import { ClientCredentialTokenResponse } from "../models/auth";
 
 const encodedBase64 = (data: string): string => {
-  return Buffer.from(data).toString("base64");
+  if (typeof window !== "undefined") {
+    // 브라우저 환경
+    return btoa(data);
+  } else {
+    // Node.js 환경
+    return Buffer.from(data).toString("base64");
+  }
 };
 
 export const getClinentCredentialToken =
