@@ -1,5 +1,12 @@
 import { ApiResponse } from "./apiResponse";
-import { ExternalUrls, Image, Owner } from "./commonType";
+import {
+  ExternalUrls,
+  Followers,
+  Image,
+  Owner,
+  Track,
+  Episode,
+} from "./commonType";
 
 export interface getCurrentUserPlaylistRequest {
   limit?: number;
@@ -8,9 +15,9 @@ export interface getCurrentUserPlaylistRequest {
 
 export type getCurrentUserPlaylistResponse = ApiResponse<SimplifiedPlaylist>;
 
-export interface SimplifiedPlaylist {
+export interface BasePlaylist {
   collaborative?: boolean;
-  description?: string;
+  description?: string | null;
   external_urls: ExternalUrls;
   href?: string;
   id?: string;
@@ -19,14 +26,48 @@ export interface SimplifiedPlaylist {
   owner?: Owner;
   public?: boolean;
   snapshot_id?: string;
+  type?: "playlist";
+  uri?: string;
+}
+export interface SimplifiedPlaylist extends BasePlaylist {
   tracks?: {
     href?: string;
     total?: number;
   };
-  type?: string;
+}
+
+export interface Playlist extends BasePlaylist {
+  tracks?: ApiResponse<PlaylistTrack>;
+  followers?: Followers;
+}
+
+export interface GetPlaylistRequest {
+  playlist_id: string;
+  market?: string;
+  fields?: string;
+  additional_types?: string[];
+}
+
+export interface GetPlaylistItemsRequest extends GetPlaylistRequest {
+  limit?: number;
+  offset?: number;
+}
+
+export type GetPlaylistItemsResponse = ApiResponse<PlaylistTrack>;
+
+export interface PlaylistTrack {
+  added_at?: string | null;
+  added_by?: {
+    external_urls?: ExternalUrls;
+    followers?: Followers;
+    href?: string;
+    id?: string;
+    type?: string;
+    uri?: string;
+  } | null;
+  is_local?: boolean;
+  track: Track | Episode;
 }
 
 // Type aliases for compatibility
-export type IGetCurrentUserPlaylistRequest = getCurrentUserPlaylistRequest;
 export type IPlaylist = SimplifiedPlaylist;
-export type TGetCurrentUserPlaylistResponse = getCurrentUserPlaylistResponse;

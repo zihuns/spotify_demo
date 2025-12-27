@@ -1,5 +1,5 @@
 import { styled } from "@mui/material";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import useGetCurrentUserPlaylists from "../../hooks/useGetCurrentUserPlaylists";
 import LoadingSpinner from "../../common/components/LoadingSpinner";
 import ErrorMessage from "../../common/components/ErrorMessage";

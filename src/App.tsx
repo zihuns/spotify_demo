@@ -3,6 +3,7 @@ import "./App.css";
 import { Routes, Route } from "react-router";
 import LoadingSpinner from "./common/components/LoadingSpinner";
 import useExchangeToken from "./hooks/useExchangeToken";
+import PlaylistDetailPage from "./pages/PlaylistDetailPage/PlaylistDetailPage";
 const AppLayout = React.lazy(() => import("./layout/AppLayout"));
 const HomePage = React.lazy(() => import("./pages/HomePage/HomePage"));
 const SearchPage = React.lazy(() => import("./pages/SearchPage/SearchPage"));
@@ -31,8 +32,8 @@ function App() {
         <Route path="/" element={<AppLayout />}>
           <Route index element={<HomePage />} />
           <Route path="search" element={<SearchPage />} />
+          <Route path="playlist/:id" element={<PlaylistDetailPage />} />
           {/* <Route path="search/:keyword" element={<SearchWithKeywordPage />} />
-        <Route path="playlist/:id" element={<PlaylistDetailPage />} /> */}
           {/* <Route path="playlist" element={<LibraryPage />} /> */}
         </Route>
       </Routes>
