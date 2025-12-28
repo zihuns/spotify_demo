@@ -1,12 +1,6 @@
 import { ApiResponse } from "./apiResponse";
-import {
-  ExternalUrls,
-  Followers,
-  Image,
-  Owner,
-  Track,
-  Episode,
-} from "./commonType";
+import { ExternalUrls, Followers, Image, Owner } from "./commonType";
+import { Track, Episode } from "./track";
 
 export interface getCurrentUserPlaylistRequest {
   limit?: number;
