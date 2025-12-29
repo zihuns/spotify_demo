@@ -37,7 +37,7 @@ export const getPlaylist = async (
     });
     return response.data;
   } catch (error) {
-    throw new Error("Failed to fetch playlist");
+    throw error;
   }
 };
 
