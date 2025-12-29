@@ -63,5 +63,9 @@ export interface PlaylistTrack {
   track: Track | Episode;
 }
 
-// Type aliases for compatibility
-export type IPlaylist = SimplifiedPlaylist;
+export interface CreatePlaylistRequest {
+  name: string;
+  playlistPublic?: boolean;
+  collaborative?: boolean;
+  description?: string;
+}
