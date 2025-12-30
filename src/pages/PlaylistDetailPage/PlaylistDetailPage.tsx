@@ -122,7 +122,7 @@ const PlaylistDetailPage = () => {
   return (
     <div>
       <PlaylistHeader container spacing={7}>
-        <ImageGrid size={{ sm: 12, md: 10 }}>
+        <ImageGrid size={{ sm: 12, md: 2 }}>
           {playlist?.images ? (
             <AlbumImage
               src={playlist?.images[0].url}
