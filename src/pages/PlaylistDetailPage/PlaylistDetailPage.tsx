@@ -164,7 +164,7 @@ const PlaylistDetailPage = () => {
         </Grid>
       </PlaylistHeader>
       {playlist?.tracks?.total === 0 ? (
-        <EmptyPlaylistWithSearch />
+        <EmptyPlaylistWithSearch playlistId={id} />
       ) : (
         <StyledTableContainer>
           <Table>

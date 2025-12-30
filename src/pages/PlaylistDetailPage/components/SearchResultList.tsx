@@ -12,6 +12,8 @@ import {
 } from "@mui/material";
 import { useEffect } from "react";
 import LoadingSpinner from "../../../common/components/LoadingSpinner";
+import { addTracksToPlaylist } from "../../../apis/playlistApi";
+import { useQueryClient } from "@tanstack/react-query";
 const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
   background: theme.palette.background.paper,
   color: theme.palette.common.white,
@@ -32,18 +34,36 @@ const AlbumImage = styled("img")({
 });
 interface SearchResultListProps {
   // props 추가
+  playlistId: string;
   list: Track[];
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
   fetchNextPage: () => void;
 }
 const SearchResultList = ({
+  playlistId,
   list,
   hasNextPage,
   isFetchingNextPage,
   fetchNextPage,
 }: SearchResultListProps) => {
   const [ref, inView] = useInView(); // 무한스크롤 옵저버 추가
+  const queryClient = useQueryClient();
+
+  const handleAddTrackToPlaylist = (track: Track) => async () => {
+    if (!track.uri) return;
+    await addTracksToPlaylist({
+      playlist_id: playlistId,
+      uris: [track.uri],
+    });
+    await Promise.all(
+      [
+        ["current-user-playlists"],
+        ["playlist-detail", playlistId],
+        ["playlist-items", playlistId],
+      ].map((queryKey) => queryClient.invalidateQueries({ queryKey }))
+    );
+  };
 
   useEffect(() => {
     // fetchNextPage 호출 추가
@@ -72,7 +92,7 @@ const SearchResultList = ({
             </TableCell>
             <TableCell>{track.album?.name}</TableCell>
             <TableCell>
-              <Button>Add</Button>
+              <Button onClick={handleAddTrackToPlaylist(track)}>Add</Button>
             </TableCell>
           </StyledTableRow>
         ))}

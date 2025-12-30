@@ -47,7 +47,13 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-const EmptyPlaylistWithSearch = () => {
+interface EmptyPlaylistWithSearchProps {
+  playlistId: string;
+}
+
+const EmptyPlaylistWithSearch = ({
+  playlistId,
+}: EmptyPlaylistWithSearchProps) => {
   const [keyword, setKeyword] = useState<string>("");
   // 무한스크롤을 위해 nextpage 관련 추가
   const {
@@ -98,6 +104,7 @@ const EmptyPlaylistWithSearch = () => {
           <LoadingSpinner /> // 로딩 중일 때 스피너 표시
         ) : hasResults ? (
           <SearchResultList // nextpage관련 속성 추가
+            playlistId={playlistId}
             list={tracks}
             hasNextPage={hasNextPage}
             isFetchingNextPage={isFetchingNextPage}
