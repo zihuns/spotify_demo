@@ -2,7 +2,7 @@ import axios from "axios";
 import { SPOTIFY_BASE_URL } from "../configs/commonConfig";
 import { SearchRequestParams, SearchResponse } from "../models/search";
 
-const searchItemsByKeyword = async (
+export const searchItemsByKeyword = async (
   token: string,
   params: SearchRequestParams
 ): Promise<SearchResponse> => {
@@ -36,5 +36,3 @@ const searchItemsByKeyword = async (
     throw new Error("Failed to search items by keyword");
   }
 };
-
-export default searchItemsByKeyword;

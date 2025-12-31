@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import searchItemsByKeyword from "../apis/searchApi";
 import { SearchRequestParams } from "../models/search";
 import useClientCredentialToken from "./useClientCredentialToken";
+import { searchItemsByKeyword } from "../apis/searchApi";
 
 const useSearchItemsByKeyword = (params: SearchRequestParams) => {
   const clientCredentialToken = useClientCredentialToken();
