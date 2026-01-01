@@ -1,11 +1,15 @@
-import { Box, InputAdornment, styled, TextField } from "@mui/material";
-import React, { useState } from "react";
+import {
+  Box,
+  IconButton,
+  InputAdornment,
+  styled,
+  TextField,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import { SEARCH_TYPE } from "../../models/search";
-import useSearchItemsByKeyword from "../../hooks/useSearchItemsByKeyword";
-import LoadingSpinner from "../../common/components/LoadingSpinner";
-import SearchResultList from "../PlaylistDetailPage/components/SearchResultList";
+import ClearIcon from "@mui/icons-material/Clear";
 import Category from "./components/Category";
+import { useNavigate } from "react-router";
 
 const SearchContainer = styled(Box)({
   // 스크롤 디자인
@@ -43,29 +47,25 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-interface SearchPageProps {
-  playlistId: string;
-}
-
-const SearchPage = ({ playlistId }: SearchPageProps) => {
+const SearchPage = () => {
   const [keyword, setKeyword] = useState<string>("");
-  // 무한스크롤을 위해 nextpage 관련 추가
-  const {
-    data,
-    error,
-    isLoading,
-    hasNextPage,
-    isFetchingNextPage,
-    fetchNextPage,
-  } = useSearchItemsByKeyword({
-    q: keyword,
-    type: [SEARCH_TYPE.Track],
-  });
-  // 모든 페이지를 가져오기 위해 flatMap으로 바꿈
-  const tracks = data?.pages.flatMap((page) => page.tracks?.items ?? []) ?? []; //널 병합 연산자라고 불립니다. 이 연산자는 왼쪽의 값이 null 또는 undefined일 때 오른쪽의 값을 반환하고, 그렇지 않으면 왼쪽의 값을 반환합니다.
-  const hasResults = tracks.length > 0;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (keyword) {
+        navigate(`/search/${keyword}`);
+      }
+    }, 200);
+    return () => clearTimeout(timer);
+  }, [keyword, navigate]);
+
   const handleSearchKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(event.target.value);
+  };
+
+  const handleClearKeyword = () => {
+    setKeyword("");
   };
 
   return (
@@ -73,6 +73,7 @@ const SearchPage = ({ playlistId }: SearchPageProps) => {
       <Box display="inline-block" width={{ xs: 1, md: 364 }}>
         <StyledTextField
           value={keyword}
+          autoFocus
           autoComplete="off"
           variant="outlined"
           placeholder="What do you wnat to play?"
@@ -84,27 +85,23 @@ const SearchPage = ({ playlistId }: SearchPageProps) => {
                   <SearchIcon style={{ color: "white" }} />
                 </InputAdornment>
               ),
+              endAdornment: keyword && (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={handleClearKeyword}
+                    sx={{ color: "white" }}
+                  >
+                    <ClearIcon fontSize="small" />
+                  </IconButton>
+                </InputAdornment>
+              ),
             },
           }}
           onChange={handleSearchKeyword}
         />
       </Box>
       <div>
-        {isLoading ? (
-          <LoadingSpinner /> // 로딩 중일 때 스피너 표시
-        ) : hasResults ? (
-          <SearchResultList // nextpage관련 속성 추가
-            playlistId={playlistId}
-            list={tracks}
-            hasNextPage={hasNextPage}
-            isFetchingNextPage={isFetchingNextPage}
-            fetchNextPage={fetchNextPage}
-          />
-        ) : keyword === "" ? (
-          <Category /> // 검색어가 없을 때는 아무것도 표시하지 않음
-        ) : (
-          <div>{`No Result for "${keyword}"`}</div> // 검색 결과가 없을 때만 표시
-        )}
+        <Category />
       </div>
     </SearchContainer>
   );
