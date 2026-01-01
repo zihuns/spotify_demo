@@ -260,7 +260,6 @@ const SearchWithKeywordPage = () => {
             <Grid size={{ xs: 12, md: 6 }}>
               <SectionTitle>Songs</SectionTitle>
               <SearchResultList
-                playlistId=""
                 list={tracks.slice(0, 4)}
                 hasNextPage={false}
                 isFetchingNextPage={false}
