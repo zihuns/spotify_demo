@@ -35,12 +35,8 @@ const HomeContent = () => {
   if (isLoading || tracksLoading) {
     return <LoadingSpinner />;
   }
-  if (error || tracksError) {
-    return (
-      <ErrorMessage
-        errorMessage={error?.message || tracksError?.message || ""}
-      />
-    );
+  if (error) {
+    return <ErrorMessage errorMessage={error.message} />;
   }
   return (
     <div>
@@ -66,29 +62,30 @@ const HomeContent = () => {
           <Typography variant="h2">No Data</Typography>
         )}
       </Box>
-
-      <Box sx={{ mb: 6 }}>
-        <Typography variant="h1" paddingTop="8px">
-          Tracks
-        </Typography>
-        {tracks && tracks.length > 0 ? (
-          <Grid container spacing={2}>
-            {tracks.map((track: any) => (
-              <Grid size={{ xs: 6, sm: 4, md: 2 }} key={track.id}>
-                <Card
-                  image={track.images[0].url}
-                  name={track.name}
-                  artistName={track.artists
-                    .map((artist: any) => artist.name)
-                    .join(", ")}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        ) : (
-          <Typography variant="h2">No Data</Typography>
-        )}
-      </Box>
+      {!tracksError && (
+        <Box sx={{ mb: 6 }}>
+          <Typography variant="h1" paddingTop="8px">
+            Tracks
+          </Typography>
+          {tracks && tracks.length > 0 ? (
+            <Grid container spacing={2}>
+              {tracks.map((track: any) => (
+                <Grid size={{ xs: 6, sm: 4, md: 2 }} key={track.id}>
+                  <Card
+                    image={track.images[0].url}
+                    name={track.name}
+                    artistName={track.artists
+                      .map((artist: any) => artist.name)
+                      .join(", ")}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          ) : (
+            <Typography variant="h2">No Data</Typography>
+          )}
+        </Box>
+      )}
 
       <Box sx={{ mb: 6 }}>
         <Typography variant="h1" paddingTop="8px">
