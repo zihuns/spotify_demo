@@ -79,9 +79,18 @@ export default function AppLayout() {
           <Library />
         </ContentBox>
       </Sidebar>
-      <ContentBox>
+      <ContentBox
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          height: "calc(100vh - 16px)",
+          overflow: "hidden",
+        }}
+      >
         <Navbar />
-        <Outlet />
+        <Box sx={{ flex: 1, minHeight: 0, overflowY: "auto" }}>
+          <Outlet />
+        </Box>
       </ContentBox>
     </Layout>
   );

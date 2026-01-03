@@ -58,7 +58,8 @@ const ResponsiveTypography = styled(Typography)(({ theme }) => ({
 const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
   background: theme.palette.background.paper,
   color: theme.palette.common.white,
-  height: "calc(100% - 64px)",
+  flex: 1,
+  minHeight: 0,
   borderRadius: "8px",
   overflowY: "auto",
   "&::-webkit-scrollbar": {
@@ -80,8 +81,6 @@ const PlaylistDetailPage = () => {
 
   const {
     data: playlistItems,
-    isLoading: isPlaylistItemsLoading,
-    error: playlistItemsError,
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
@@ -120,7 +119,14 @@ const PlaylistDetailPage = () => {
   }
 
   return (
-    <div>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        overflow: "hidden",
+      }}
+    >
       <PlaylistHeader container spacing={7}>
         <ImageGrid size={{ sm: 12, md: 2 }}>
           {playlist?.images ? (
@@ -195,7 +201,7 @@ const PlaylistDetailPage = () => {
           </Table>
         </StyledTableContainer>
       )}
-    </div>
+    </Box>
   );
 };
 
