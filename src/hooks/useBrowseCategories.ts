@@ -18,7 +18,10 @@ const useBrowseCategories = (
       if (!clientCredentialToken) {
         throw new Error("No token available");
       }
-      return browseCategories({ ...params, offset: pageParam as number });
+      return browseCategories(clientCredentialToken, {
+        ...params,
+        offset: pageParam as number,
+      });
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
@@ -29,7 +32,7 @@ const useBrowseCategories = (
       }
       return undefined;
     },
-    enabled: !!params,
+    enabled: !!clientCredentialToken,
   });
 };
 
